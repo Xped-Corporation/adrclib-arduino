@@ -1,0 +1,63 @@
+<!-- Copyright Xped Corporation 2015 all rights reserved -->
+<!-- Sample RML demostrating all 25 widgets -->
+
+<device xmlns="http://rml.xped.com">
+	<description>
+		<manufacturer>Xped</manufacturer>
+		<mmodel>ASH-ADRC01</mmodel>
+		<category>8009</category>
+		<version>0.1</version>
+		<themename>
+			<localetitle><en>Full</en></localetitle>
+		</themename>
+		<nickname>
+			<localetitle><en>Signal demo</en></localetitle>
+		</nickname>
+	</description>
+
+	<model>
+		<!-- command: turn Arduino LED on and off (pin-13) -->
+		<enum id="led" cmd="/led">
+			<item name="Off" value="0"/>
+			<item name="On" value="1"/>
+		</enum>
+		<!-- signal: display button on and off (pin-8) -->
+		<enum id="button" cmd="/button"  mode="#readonly">
+			<item name="Off" value="0"/>
+			<item name="On" value="1"/>
+		</enum>
+		<!-- signal: display ADC value (pin-5) -->
+		<range id="adc" cmd="/adc" min="0" max="1023" mode="#readonly" />
+	</model>
+
+	<view>
+		<screen name="main-page" margins="4">
+			<groupbox title="$(NICKNAME)" layout="horizontal" spacing="4" margins="4" skin="earth">
+				<controlbox bind="led" layout="vertical" margins="8" stretch="2" skin="fire">
+					<localetitle><en>LED</en></localetitle>
+					<svgtoggleswitch bind="led" dock="top"/>
+				</controlbox>
+				<groupbox bind="button" title="Signals" layout="vertical" margins="8" stretch="2" skin="black">
+					<label dock="center">
+						<localetitle><en>Button</en></localetitle>
+					</label>
+					<led bind="button" enum="off:0 green:1" skin="roundrgb" dock="center"/>
+					<spacer stretch="1"/>
+					<label dock="center">
+						<localetitle><en>ADC</en></localetitle>
+					</label>
+					<scrolldial bind="adc"  dock="center"/>
+					<spacer stretch="1"/>
+				</groupbox>
+				<spacer stretch="6"/>
+			</groupbox>
+		</screen>
+	</view>
+
+	<!-- Add the menu items the device supports here -->
+	<menu>
+		<menuitem>unpair</menuitem>
+		<!-- menuitem>set-pin</menuitem -->
+		<!-- menuitem>factory-reset</menuitem -->
+	</menu>
+</device>

@@ -1,0 +1,39 @@
+<!-- RML for ADRC Shield out of the box -->
+
+<device xmlns="http://rml.xped.com">
+	<description>
+		<manufacturer>Xped</manufacturer>
+		<mmodel>ASH-ADRC01</mmodel>
+		<category>8009</category>
+		<version>0.2</version>
+		<nickname><localetitle><en>ADRC shield</en></localetitle></nickname>
+		<url>xped.com</url>
+	</description>
+
+	<model>
+		<!-- command: turn Arduino LED (pin-13) on and off -->
+		<enum id="led" cmd="/on">
+			<item name="Off" value="0"/>
+			<item name="On" value="1"/>
+		</enum>
+	</model>
+
+	<view>
+		<screen name="main-page" margins="4">
+			<groupbox title="$(NICKNAME)" layout="horizontal" spacing="4" margins="4" skin="wood">
+				<!-- widget: turn LED on/off -->
+				<controlbox bind="led" stretch="2" spacing="8" margins="8">
+					<localetitle><en>LED</en></localetitle>
+					<svgtoggleswitch bind="led" skin="Beryl"/>
+				</controlbox>
+				<!-- layout item: dynamic space to right -->
+				<spacer stretch="8"/>
+			</groupbox>
+		</screen>
+	</view>
+
+	<!-- Add the menu items the device supports here -->
+	<menu>
+		<menuitem>unpair</menuitem>
+	</menu>
+</device>

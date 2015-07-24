@@ -1,0 +1,163 @@
+<!-- Copyright Xped Corporation 2015 all rights reserved -->
+<!-- Sample RML demostrating all 25 widgets -->
+
+<device xmlns="http://rml.xped.com">
+	<description>
+		<manufacturer>Xped</manufacturer>
+		<mmodel>ASH-ADRC01</mmodel>
+		<category>8009</category>
+		<version>0.1</version>
+		<themename>
+			<localetitle><en>Full</en></localetitle>
+		</themename>
+		<nickname>
+			<localetitle><en>Widget demo</en></localetitle>
+		</nickname>
+	</description>
+
+	<model>
+		<!-- Trigger model items -->
+		<trigger id="v+" cmd="/vu" mode="#writeonly"/>
+		<trigger id="v-" cmd="/vd" mode="#writeonly"/>
+		<trigger id="ch+" cmd="/cu" mode="#writeonly"/>
+		<trigger id="ch-" cmd="/cd" mode="#writeonly"/>
+		<trigger id="guide" cmd="/gd" mode="#writeonly"/>
+		<trigger id="ok" cmd="/ok" mode="#writeonly"/>
+		<trigger id="input" cmd="/ip" mode="#writeonly"/>
+		<trigger id="up" cmd="/up" mode="#writeonly"/>
+		<trigger id="down" cmd="/dn" mode="#writeonly"/>
+		<trigger id="left" cmd="/lf" mode="#writeonly"/>
+		<trigger id="right" cmd="/rg" mode="#writeonly"/>
+		<trigger id="sel" cmd="/sl" mode="#writeonly"/>
+		
+		<!-- Enumeration model items -->
+		<enum id="speed" cmd="/sp">
+			<item name="Low" value="0"/>
+			<item name="Hign" value="1"/>
+		</enum>
+		<enum id="light" cmd="/lg">
+			<item name="Off" value="0"/>
+			<item name="On" value="1"/>
+		</enum>
+		<enum id="sweep" cmd="/sw">
+			<item name="Ped" value="0"/>
+			<item name="Gen" value="1"/>
+		</enum>
+		<enum id="blink" cmd="/bk">
+			<item name="Slow" value="0"/>
+			<item name="Fast" value="1"/>
+		</enum>
+		<enum id="step" cmd="/st">
+			<item name="Wash" value="1"/>
+			<item name="Rinse" value="2"/>
+			<item name="Dry" value="3"/>
+			<item name="Finished" value="4"/>
+		</enum>
+		<enum id="eco" cmd="/ec">
+			<item name="Off" value="0"/>
+			<item name="On" value="1"/>
+		</enum>
+		<enum id="fault" cmd="/fl" mode="readonly">
+			<item name="Ok" value="0"/>
+			<item name="Unplugged" value="1"/>
+			<item name="Open" value="2"/>
+			<item name="Short" value="3"/>
+		</enum>
+		
+		<!-- Range model items -->
+		<range id="led" cmd="/led" min="0" max="15" step="1"/>
+		<range id="prg" cmd="/prg" min="0" max="135" mode="writeonly"/>		
+		<range id="rem" cmd="/rem" min="0" max="135" mode="readonly"/>
+		<range id="cdn" cmd="/cdn" min="0" max="90" mode="readonly"/>
+		<range id="bdp" cmd="/bdp" min="0" max="99" mode="readonly"/>
+
+		<!-- Text model items -->
+		<text id="preset" cmd="/pre" length="196" mode="#readonly"/>
+	</model>
+
+	<view>
+		<screen name="page-1" margins="4">
+			<groupbox title="Trigger - 1/5" layout="horizontal" margins="4" skin="metal">
+				<svg2waybutton bind="v+ v-" skin="Beryl" titledisplay="1">
+					<localetitle><en>Vol</en></localetitle>
+				</svg2waybutton>
+				<svg3waybutton bind="ch+ ch- guide" skin="Beryl_guide"/>
+				<box layout="vertical" spacing="16" border="0">
+					<pushbutton bind="ok" titledisplay="1">
+						<localetitle><en>Ok</en></localetitle>
+					</pushbutton>
+					<svgbutton bind="input" skin="input"/>
+				</box>
+				<svg5waybutton bind="up down left right sel :page-2" skin="Beryl_ben"/>
+				<spacer stretch="1"/>
+				<box layout="vertical" rightmargin="16" dock="bottom">
+					<svgbutton bind="none :page-2" skin="pvr_fwd"/>
+				</box>
+			</groupbox>
+		</screen>
+
+		<screen name="page-2" margins="4">
+			<groupbox title="Enumeration - 2/5" layout="horizontal" margins="4" spacing="16" skin="metal">
+				<box layout="vertical" spacing="8" border="0" stretch="1">
+					<checkbox bind="speed" title="Speed"/>
+					<checkbox bind="light" title="Light"/>
+					<svgslideswitch bind="sweep" skin="Beryl" titledisplay="1" dock="left">
+						<localetitle><en>Ped,Gen</en></localetitle>
+					</svgslideswitch>
+					<box layout="horizontal" spacing="8" border="0" stretch="2" dock="left">
+						<led bind="fault" enum="green:0 off:1 blue:2 red:3" skin="roundrgb" dock="left"/>
+						<label dock="right">
+							<localetitle><en>Fault</en></localetitle>
+						</label>
+					</box>
+					<spacer stretch="1"/>
+				</box>
+				<box layout="vertical" spacing="8" border="0" stretch="1">
+					<svgtoggleswitch bind="eco" skin="BerylSquare"/>
+					<svgtoggleswitch bind="blink" skin="Beryl"/>
+				</box>
+				<box layout="vertical" spacing="8" border="0" stretch="2">
+					<radiogroup bind="step" title="Step" orientation="vertical"/>
+					<spacer stretch="1"/>
+				</box>
+				<spacer stretch="1"/>
+				<box layout="vertical" rightmargin="16" dock="bottom">
+					<svgbutton bind="none :page-3" skin="pvr_fwd"/>
+				</box>
+			</groupbox>
+		</screen>
+		<screen name="page-3" margins="4">
+			<groupbox title="Range - 3/5" layout="horizontal" margins="4" spacing="8" skin="metal">
+				<box layout="vertical" border="0" stretch="3">
+					<scrolldialwheel bind="led" skin="Beryl" parallelwheel="true"/>
+				</box>
+				<box layout="vertical" border="0" stretch="2">
+					<sevenseg bind="cdn" segments="2" text-color="0xff0000" stretch="1"/>
+					<scrolldial bind="bdp" stretch="1"/>
+				</box>
+				<box layout="vertical" rightmargin="16" stretch="1" dock="bottom">
+					<svgbutton bind="none :page-4" skin="pvr_fwd"/>
+				</box>
+			</groupbox>
+		</screen>
+		<screen name="page-4" margins="4">
+			<groupbox title="Range - 4/5" layout="vertical" margins="16" spacing="16" skin="metal">
+				<slider bind="prg" orientation="horizontal"/>
+				<progress bind="rem" orientation="horizontal"/>
+				<svgbutton bind="none :page-5" skin="pvr_fwd" dock="rightbottom"/>
+			</groupbox>
+		</screen>
+		<screen name="page-5" margins="4">
+			<groupbox title="Text - 5/5" layout="vertical" margins="16" spacing="16" skin="metal">
+				<textbox bind="preset" wrapping="1" text-color="0x3f3f3f" text-bold="0" text-italic="0" dock="left"/>
+				<spacer stretch="1"/>
+				<svgbutton bind="none :page-1" skin="pvr_fwd" dock="rightbottom"/>
+			</groupbox>
+		</screen>
+	</view>
+	
+	<!-- Add the menu items the device supports here -->
+	<menu>
+		<menuitem>unpair</menuitem>
+	</menu>
+</device>
